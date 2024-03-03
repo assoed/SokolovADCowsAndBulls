@@ -43,3 +43,39 @@ class Player(val name: String, var score: Int) {
         return "Игрок: $name, Счет: $score"
     }
 }
+
+class GameInterface {
+    fun startGame() {
+        val game = Game()
+        val player = Player("Игрок 1", 0)
+
+        println("Добро пожаловать в игру Быки и Коровы, ${player.name}!")
+        println("Я загадал 4-значное число. Попробуйте его угадать.")
+
+        var bulls: Int
+        do {
+            println("Введите ваше число:")
+            val guess: String? = readLine()
+
+            if (!guess.isNullOrBlank() && game.isValidInput(guess)) {
+                val result = game.guess(guess)
+                bulls = result.first
+                val cows = result.second
+
+                if (bulls == 4) {
+                    println("Поздравляю, вы угадали число!")
+                } else {
+                    println("Быки: $bulls, Коровы: $cows")
+                }
+            } else {
+                println("Введенное число недействительно. Пожалуйста, введите 4-значное число, в котором все цифры различны.")
+                bulls = 0 // При неверном вводе сбрасываем быков
+            }
+        } while (bulls != 4)
+    }
+}
+
+fun main() {
+    val gameInterface = GameInterface()
+    gameInterface.startGame()
+}
